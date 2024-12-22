@@ -65,21 +65,23 @@ def inser_interesi(message,):
     markup.add(item1)
     bot.send_message(message.chat.id, "Интерес сохранен", reply_markup=markup)
 
+
 @bot.message_handler(func=lambda message: message.text == "Посмотреть интересы")
-def viev_interes(message):
+def view_interests(message):
     user_id = message.from_user.id
-    viev_in = manager.view_interests(user_id)
-    if viev_in:
-        text = "\n".join([f"Interest: {x[0]}" for x in viev_in])
-        bot.send_message(message.chat.id, text, reply_markup=gen_inline_markup([x[0] for x in viev_in]))
+    interests = manager.view_interests(user_id)
+    if interests:
+        bot.send_message(message, "Ваши интересы:", reply_markup=gen_inline_markup(interests))
     else:
         no_sach(message)
 
+
 @bot.message_handler(func=lambda message: message.text == "Удалить интересы")
-def delete_interes(message):
+def delete_interests(message):
     user_id = message.from_user.id
     manager.delete_interest(user_id)
     bot.send_message(message.chat.id, "Интересы удалены")
+        
 
 @bot.message_handler(func=lambda message: message.text == "Мое образование")
 def my_obr(message):
